@@ -45,7 +45,7 @@ jobs:
 
       - name: Deploy to Snowflake (Prod)
         run: |
-          cd banking_dbt
+          cd dbt
           dbt deps
           dbt run --target prod
           dbt test --target prod
