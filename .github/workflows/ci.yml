@@ -46,7 +46,7 @@ jobs:
       - name: Run unit tests
         run: |
           pytest tests/ || echo "No tests yet"
-
+          
       - name: Setup dbt profile
         run: |
           mkdir -p ~/.dbt
@@ -64,7 +64,6 @@ jobs:
                 warehouse: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
                 schema: ANALYTICS
           EOL
-          # Ghi private key từ GitHub Secret ra file tạm
           echo "${{ secrets.SNOWFLAKE_PRIVATE_KEY }}" > /tmp/rsa_key.p8
           chmod 600 /tmp/rsa_key.p8
 
@@ -72,4 +71,4 @@ jobs:
         run: |
           cd banking_dbt
           dbt deps
-          dbt compile
+          dbt compile --profiles-dir ~/.dbt
