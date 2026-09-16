@@ -1,0 +1,17 @@
+# Data Generator
+faker
+psycopg2-binary
+pyyaml
+
+# CDC
+requests
+python-dotenv
+
+# Consumer
+kafka-python
+pandas
+fastparquet
+boto3
+
+# Transformation
+dbt-snowflake

@@ -1,0 +1,13 @@
+banking_dbt:
+  outputs:
+    dev:
+      account: br51073.ap-southeast-1
+      database: BANKING_DB
+      private_key_path: "/opt/airflow/keys/rsa_key.p8"
+      role: ETL_ROLE
+      schema: ANALYTICS_STAGING
+      threads: 4
+      type: snowflake
+      user: ETL_USER
+      warehouse: COMPUTE_WH
+  target: dev

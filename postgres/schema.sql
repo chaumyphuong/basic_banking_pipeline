@@ -1,0 +1,26 @@
+CREATE TABLE IF NOT EXISTS dim_customers (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    lastname VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS dim_accounts (
+    id SERIAL PRIMARY KEY,
+    customer_id INT NOT NULL REFERENCES dim_customers(id) ON DELETE CASCADE,
+    account_type VARCHAR(50) NOT NULL,
+    balance NUMERIC(15, 2) NOT NULL DEFAULT 0.00,
+    currency VARCHAR(10) NOT NULL DEFAULT 'USD',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS fact_transactions (
+    id SERIAL PRIMARY KEY,
+    account_id INT NOT NULL REFERENCES dim_accounts(id) ON DELETE CASCADE,
+    txn_type VARCHAR(50) NOT NULL,
+    amount NUMERIC(15, 2) NOT NULL,
+    related_account INT,
+    status VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
