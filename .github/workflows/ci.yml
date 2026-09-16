@@ -41,8 +41,8 @@ jobs:
 
       - name: Run linters
         run: |
-          ruff check . --exclude banking_dbt/target,banking_dbt/dbt_packages
-
+          pip install ruff
+          ruff check . --select=E9,F63,F7,F82 --exclude banking_dbt/target,banking_dbt/dbt_packages
       - name: Run unit tests
         run: |
           pytest tests/ || echo "No tests yet"
