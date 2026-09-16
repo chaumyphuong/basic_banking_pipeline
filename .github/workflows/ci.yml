@@ -69,6 +69,6 @@ jobs:
 
       - name: dbt compile (validation)
         run: |
-          cd banking_dbt
+          cd dbt
           dbt deps
           dbt compile --profiles-dir ~/.dbt
