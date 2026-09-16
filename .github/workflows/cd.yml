@@ -47,5 +47,5 @@ jobs:
         run: |
           cd dbt
           dbt deps
-          dbt run --target prod
-          dbt test --target prod
+          dbt run --target prod --profiles-dir ~/.dbt
+          dbt test --target prod --profiles-dir ~/.dbt  
