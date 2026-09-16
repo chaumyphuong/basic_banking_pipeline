@@ -22,7 +22,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install dbt-snowflake==1.12.0
 
-      - name: Setup dbt profiles.yml
+      - name: Setup dbt profile and Private Key
         run: |
           mkdir -p ~/.dbt
           cat > ~/.dbt/profiles.yml <<EOL
@@ -34,18 +34,25 @@ jobs:
                 account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
                 user: ${{ secrets.SNOWFLAKE_USER }}
                 private_key_path: /tmp/rsa_key.p8
-                private_key_passphrase: ${{ secrets.SNOWFLAKE_PASSPHRASE }}
                 role: ACCOUNTADMIN
-                database: BANKING
+                database: BANKING_DB
                 warehouse: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
                 schema: ANALYTICS
+                threads: 4
           EOL
-          echo "${{ secrets.SNOWFLAKE_PRIVATE_KEY }}" > /tmp/rsa_key.p8
+          
+          # Ghi private key chuẩn định dạng và cấp quyền đọc bảo mật
+          printf "%s\n" "${{ secrets.SNOWFLAKE_PRIVATE_KEY }}" > /tmp/rsa_key.p8
           chmod 600 /tmp/rsa_key.p8
 
-      - name: Deploy to Snowflake (Prod)
+      - name: Test dbt connection (Debug)
+        run: |
+          cd dbt
+          dbt debug --target prod --profiles-dir ~/.dbt
+
+      - name: Deploy to Snowflake Prod
         run: |
           cd dbt
           dbt deps
           dbt run --target prod --profiles-dir ~/.dbt
-          dbt test --target prod --profiles-dir ~/.dbt  
+          dbt test --target prod --profiles-dir ~/.dbt
