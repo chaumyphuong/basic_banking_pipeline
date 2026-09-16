@@ -10,20 +10,19 @@ keys/
 **/logs/
 dbt.log
 
-# 3. Python & Môi trường ảo
 .venv/
 venv/
 ENV/
 __pycache__/
 *.py[cod]
 
-# 4. Airflow runtime logs & SQLite
 logs/
 airflow.db
 airflow.cfg
 
-# 5. Hệ điều hành & IDE
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/
+
+docker/postgres/data/
